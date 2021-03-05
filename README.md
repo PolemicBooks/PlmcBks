@@ -34,6 +34,8 @@ python3 -m pip install --force-reinstall \
 
 </details>
 
+> As informações sobre todos os livros são armazenadas localmente em arquivos `json` e compactados usando o `xz`. Dependendo da sua máquina, pode demorar entre 5 a 10 minutos para que a biblioteca seja completamente importado durante uma sessão.
+
 ## Tipos
 
 O PlmcBks possui 2 tipos principais, o `Dict` e o `List`. Eles são usados como base para todos os demais tipos (subclasses).
