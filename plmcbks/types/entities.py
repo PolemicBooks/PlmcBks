@@ -1,3 +1,4 @@
+from ..utils.strings import to_query
 from .books import Books
 from .objects import Dict, List
 
@@ -48,3 +49,65 @@ class Entities(List):
 			raise TypeError(f"expecting str or int, got {item.__class__.__name__}")
 		
 		raise KeyError(item)
+	
+	
+	# Este método é usado para pesquisar por entidades com base no nome.
+	def slow_search(self, query):
+		"""
+		O método de pesquisa lenta exclui algumas palavras consideradas irrelevantes e
+		também desconsidera a posição em que as palavras na pesquisa original aparecem.
+		
+		O propósito disso é obter resultados menos exatos, só que possivelmente mais
+		relevantes.
+		"""
+		
+		results = Entities()
+		
+		# Aqui convertemos todos os caracteres para minúsculo e também removemos os acentos e as
+		# pontuações.
+		query = to_query(query)
+		
+		# Aqui separamos cada palavra com mais de 2 caracteres em uma lista.
+		splited_query = [
+			word for word in query.split() if len(word) > 2
+		]
+		
+		if not splited_query:
+			return results
+		
+		for entity in self.iter():
+			
+			# Pesquisa por correspondências no nome da entidade.
+			if entity is not None:
+				if (query in entity.name.query or
+					all(word in entity.name.query for word in splited_query)):
+					results.append(entity)
+		
+		return results
+	
+	
+	# Este método também é usado para pesquisar por entidades.
+	def fast_search(self, query):
+		"""
+		O método de pesquisa rápida, ao contrário do método de pesquisa lenta,
+		não exclui palavras consideradas irrelevantes e também leva em conta a posição
+		original de cada palavra.
+		
+		Isso lhe trará resultados mais exatos, só que possivelmente menos relevantes.
+		"""
+		
+		results = Entities()
+		
+		# Aqui convertemos todos os caracteres para minúsculo e também removemos os acentos e as
+		# pontuações.
+		query = to_query(query)
+		
+		for entity in self.iter():
+			
+			# Pesquisa por correspondências no nome da entidade.
+			if entity is not None:
+				if (query in entity.name.query):
+					results.append(entity)
+		
+		return results
+

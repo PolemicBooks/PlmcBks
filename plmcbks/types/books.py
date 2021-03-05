@@ -199,3 +199,25 @@ class Books(List):
 				if document.file_id == file_id:
 					return document
 
+	
+	def get(self, item):
+		"""
+		Este método é usado para obter um livro através do seu ID.
+		"""
+	
+		try:
+			entity = self[item]
+		except (KeyError, IndexError):
+			return
+		else:
+			return entity
+	
+	
+	def __getitem__(self, item):
+		if isinstance(item, int):
+			return self.list()[item]
+		else:
+			raise TypeError(f"expecting int, got {item.__class__.__name__}")
+	
+
+

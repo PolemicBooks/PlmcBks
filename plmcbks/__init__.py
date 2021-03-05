@@ -230,6 +230,7 @@ __all__ = [
 	"publishers",
 	"categories",
 	"types",
+	"years",
 	"books"
 
 ]
