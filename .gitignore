@@ -1,0 +1,6 @@
+build/
+dist/
+plmcbks.egg-info/
+__pycache__/
+scripts/_config.py
+scripts/.pyrogram
