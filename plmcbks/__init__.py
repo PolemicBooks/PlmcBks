@@ -203,7 +203,6 @@ for index, book in enumerate(json.loads(content)):
 			volumes=book["volumes"],
 			chapters=book["chapters"],
 			language=book["language"],
-			views=book["views"],
 			cover=Cover(
 				date=book["photo"]["date"],
 				file_extension=book["photo"]["file_extension"],
