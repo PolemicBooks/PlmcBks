@@ -180,8 +180,7 @@ for index, book in enumerate(json.loads(content)):
 				file_id=document["file_id"],
 				file_name=document["file_name"],
 				file_size=document["file_size"],
-				mime_type=document["mime_type"],
-				views=document["views"]
+				mime_type=document["mime_type"]
 			)
 		)
 	
@@ -189,6 +188,7 @@ for index, book in enumerate(json.loads(content)):
 		Book(
 			id=index,
 			message_id=book["message_id"],
+			date=book["date"],
 			title=title,
 			type=book_type,
 			category=category,

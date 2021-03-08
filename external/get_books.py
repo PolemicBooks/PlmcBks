@@ -58,6 +58,7 @@ while message_id < MAX_MESSAGES:
 		
 		book = {
 			"message_id": message.message_id,
+			"date": message.date,
 			"title": extrctd["title"],
 			"type": extrctd["type"],
 			"category": extrctd["category"],
@@ -72,7 +73,6 @@ while message_id < MAX_MESSAGES:
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
 			"language": extrctd["language"],
-			"views": message.views,
 			"photo": {
 				"date": message.photo.date,
 				"file_extension": "jpeg",
@@ -99,6 +99,7 @@ while message_id < MAX_MESSAGES:
 		
 		book = {
 			"message_id": message.message_id,
+			"date": message.date,
 			"title": extrctd["title"],
 			"type": extrctd["type"],
 			"category": extrctd["category"],
@@ -113,7 +114,6 @@ while message_id < MAX_MESSAGES:
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
 			"language": extrctd["language"],
-			"views": message.views,
 			"photo": fallback_photo,
 			"documents": []
 		}
@@ -128,8 +128,7 @@ while message_id < MAX_MESSAGES:
 			"file_id": message.document.file_id,
 			"file_name": message.document.file_name,
 			"file_size": message.document.file_size,
-			"mime_type": message.document.mime_type,
-			"views": message.views
+			"mime_type": message.document.mime_type
 		}
 		
 		book["total_size"] += message.document.file_size

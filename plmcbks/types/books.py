@@ -11,6 +11,7 @@ class Book(Dict):
 		self,
 		id,
 		message_id,
+		date,
 		title,
 		type,
 		category,
@@ -25,12 +26,12 @@ class Book(Dict):
 		volumes,
 		chapters,
 		language,
-		views,
 		cover,
 		documents
 	):
 		self.id = id
 		self.message_id = message_id
+		self.date = date
 		self.title = title
 		self.type = type
 		self.category = category
@@ -45,7 +46,6 @@ class Book(Dict):
 		self.volumes = volumes
 		self.chapters = chapters
 		self.language = language
-		self.views = views
 		self.cover = cover
 		self.documents = documents
 

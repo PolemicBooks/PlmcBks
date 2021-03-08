@@ -12,8 +12,7 @@ class Document(Dict):
 		file_id,
 		file_name,
 		file_size,
-		mime_type,
-		views
+		mime_type
 	):
 		self.message_id = message_id
 		self.date = date
@@ -22,7 +21,6 @@ class Document(Dict):
 		self.file_name = file_name
 		self.file_size = file_size
 		self.mime_type = mime_type
-		self.views = views
 
 
 
