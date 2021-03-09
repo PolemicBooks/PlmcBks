@@ -21,6 +21,7 @@ from .types import (
 	Books,
 	String,
 	Cover,
+	Covers,
 	Resolution,
 	Document,
 	Documents
@@ -119,8 +120,10 @@ with lzma.open(filename=books, mode="r") as xzfile:
 	content = xzfile.read().decode()
 
 books = Books()
+covers = Covers()
+documents = Documents()
 
-for index, book in enumerate(json.loads(content)):
+for book in json.loads(content):
 	
 	if book["title"] is not None:
 		title = String(book["title"])
@@ -169,24 +172,41 @@ for index, book in enumerate(json.loads(content)):
 	else:
 		year = None
 	
-	documents = Documents()
+	book_docs = Documents()
 	
 	for document in book["documents"]:
-		documents.append(
-			Document(
-				message_id=document["message_id"],
-				date=document["date"],
-				file_extension=document["file_extension"],
-				file_id=document["file_id"],
-				file_name=document["file_name"],
-				file_size=document["file_size"],
-				mime_type=document["mime_type"]
-			)
+		doc = Document(
+			id=document["id"],
+			message_id=document["message_id"],
+			date=document["date"],
+			file_extension=document["file_extension"],
+			file_name=document["file_name"],
+			file_size=document["file_size"],
+			mime_type=document["mime_type"]
 		)
+		
+		book_docs.append(doc)
+		documents.append(doc)
+	
+	cover = Cover(
+		id=book["cover"]["id"],
+		message_id=book["cover"]["message_id"],
+		date=book["cover"]["date"],
+		file_extension=book["cover"]["file_extension"],
+		file_name=book["cover"]["file_name"],
+		file_size=book["cover"]["file_size"],
+		mime_type=book["cover"]["mime_type"],
+		resolution=Resolution(
+			height=book["cover"]["resolution"]["height"],
+			width=book["cover"]["resolution"]["width"]
+		)
+	)
+	
+	covers.append(cover)
 	
 	books.append(
 		Book(
-			id=index,
+			id=book["id"],
 			message_id=book["message_id"],
 			date=book["date"],
 			title=title,
@@ -203,21 +223,11 @@ for index, book in enumerate(json.loads(content)):
 			volumes=book["volumes"],
 			chapters=book["chapters"],
 			language=book["language"],
-			cover=Cover(
-				date=book["photo"]["date"],
-				file_extension=book["photo"]["file_extension"],
-				file_id=book["photo"]["file_id"],
-				file_name=book["photo"]["file_name"],
-				file_size=book["photo"]["file_size"],
-				mime_type=book["photo"]["mime_type"],
-				resolution=Resolution(
-					height=book["photo"]["resolution"]["height"],
-					width=book["photo"]["resolution"]["width"]
-				)
-			),
-			documents=documents
+			cover=cover,
+			documents=book_docs
 		)
 	)
+
 
 __all__ = [
     "__description__",
@@ -230,8 +240,9 @@ __all__ = [
 	"categories",
 	"types",
 	"years",
-	"books"
-
+	"books",
+	"covers",
+	"documents"
 ]
 
 for __name in dict(locals()):

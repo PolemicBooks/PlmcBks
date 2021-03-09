@@ -7,7 +7,7 @@ from .publishers import Publisher, Publishers
 from .years import Year, Years
 from .books import Book, Books
 from .strings import String
-from .covers import Cover
+from .covers import Cover, Covers
 from .resolutions import Resolution
 from .documents import Document, Documents
 from .objects import Object, Dict, List

@@ -40,7 +40,9 @@ class Entities(List):
 	
 	def __getitem__(self, item):
 		if isinstance(item, int):
-			return self.list()[item]
+			for entity in self.iter():
+				if entity.id == entity:
+					return entity
 		elif isinstance(item, str):
 			for entity in self.iter():
 				if entity.name == item:

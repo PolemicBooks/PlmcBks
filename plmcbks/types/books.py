@@ -186,17 +186,17 @@ class Books(List):
 		return random.choice(self.list())
 	
 	
-	def get_document(self, file_id):
+	def get_document(self, message_id):
 		"""
 		Este método é usado para obter informações sobre uma imagem ou
 		documento.
 		"""
 		
 		for book in self.iter():
-			if book.cover.file_id == file_id:
+			if book.cover.message_id == message_id:
 				return book.cover
 			for document in book.documents.iter():
-				if document.file_id == file_id:
+				if document.message_id == message_id:
 					return document
 
 	

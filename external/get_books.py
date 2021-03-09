@@ -21,10 +21,10 @@ message = client.get_messages(
 	FALLBACK_COVER["chat_id"], FALLBACK_COVER["message_id"])
 
 fallback_photo = {
+	"id": None,
 	"message_id": message.message_id,
 	"date": message.photo.date,
 	"file_extension": "jpeg",
-	"file_id": message.photo.file_id,
 	"file_name": "no_cover" + ".jpeg",
 	"file_size": message.photo.file_size,
 	"mime_type": "image/jpeg",
@@ -35,6 +35,10 @@ fallback_photo = {
 }
 
 book = {}
+
+book_id = 0
+cover_id = 0
+document_id = 0
 
 while message_id < MAX_MESSAGES:
 	
@@ -57,6 +61,7 @@ while message_id < MAX_MESSAGES:
 		extrctd = scraper.extract()
 		
 		book = {
+			"id": book_id,
 			"message_id": message.message_id,
 			"date": message.date,
 			"title": extrctd["title"],
@@ -73,10 +78,11 @@ while message_id < MAX_MESSAGES:
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
 			"language": extrctd["language"],
-			"photo": {
+			"cover": {
+				"id": cover_id,
+				"message_id": message.message_id,
 				"date": message.photo.date,
 				"file_extension": "jpeg",
-				"file_id": message.photo.file_id,
 				"file_name": extrctd["title"] + ".jpeg" if extrctd["title"] is not None else "cover.jpeg",
 				"file_size": message.photo.file_size,
 				"mime_type": "image/jpeg",
@@ -88,6 +94,9 @@ while message_id < MAX_MESSAGES:
 			"documents": [],
 		}
 		
+		book_id += 1
+		cover_id += 1
+		
 		continue
 		
 	if message.text:
@@ -97,7 +106,11 @@ while message_id < MAX_MESSAGES:
 		scraper.set_text(message.text.markdown)
 		extrctd = scraper.extract()
 		
+		fallback = dict(fallback_photo)
+		fallback["id"] = book_id
+		
 		book = {
+			"id": book_id,
 			"message_id": message.message_id,
 			"date": message.date,
 			"title": extrctd["title"],
@@ -114,18 +127,20 @@ while message_id < MAX_MESSAGES:
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
 			"language": extrctd["language"],
-			"photo": fallback_photo,
+			"cover": fallback,
 			"documents": []
 		}
+		
+		book_id += 1
 		
 		continue
 	
 	if message.document:
 		document = {
+			"id": document_id,
 			"message_id": message.message_id,
 			"date": message.document.date,
 			"file_extension": message.document.file_name.split(".")[-1],
-			"file_id": message.document.file_id,
 			"file_name": message.document.file_name,
 			"file_size": message.document.file_size,
 			"mime_type": message.document.mime_type
@@ -136,6 +151,8 @@ while message_id < MAX_MESSAGES:
 		book["documents"].append(document)
 		
 		print(json.dumps(book, indent=4))
+		
+		document_id += 1
 		
 
 books.append(book)
