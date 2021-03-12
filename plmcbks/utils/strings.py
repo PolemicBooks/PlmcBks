@@ -1,4 +1,8 @@
+import re
 import unicodedata
+
+
+WHITESPACES_RE = re.compile(r"\s+")
 
 
 def strip_accents(string):
@@ -23,6 +27,10 @@ def strip_punctuation(string):
 	)
 
 
+def strip_spaces(string):
+	return WHITESPACES_RE.sub(" ", string)
+
+
 def to_query(string):
-	return strip_accents(strip_punctuation(string.lower()))
+	return strip_spaces(strip_accents(strip_punctuation(string.lower())))
 
