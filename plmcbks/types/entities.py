@@ -38,6 +38,25 @@ class Entities(List):
 			return entity
 	
 	
+	def getmany(self, items):
+		
+		results = Entities()
+		
+		for entity in self.iter():
+			if entity.id in items or entity.name in items:
+				results.append(entity)
+		
+		return results
+	
+	
+	def get_random(self, choices=1):
+		"""Este método irá retornar um ou mais livro aleatório da lista."""
+		
+		choices = random.choices(self.list(), k=choices)
+		
+		return Entities(choices)
+	
+	
 	def __getitem__(self, item):
 		if isinstance(item, int):
 			for entity in self.iter():

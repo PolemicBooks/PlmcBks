@@ -181,24 +181,13 @@ class Books(List):
 		return results
 	
 	
-	def get_random(self):
-		"""Este método irá retornar um livro aleatório da lista."""
-		return random.choice(self.list())
-	
-	
-	def get_document(self, message_id):
-		"""
-		Este método é usado para obter informações sobre uma imagem ou
-		documento.
-		"""
+	def get_random(self, choices=1):
+		"""Este método irá retornar um ou mais livro aleatório da lista."""
 		
-		for book in self.iter():
-			if book.cover.message_id == message_id:
-				return book.cover
-			for document in book.documents.iter():
-				if document.message_id == message_id:
-					return document
-
+		choices = random.choices(self.list(), k=choices)
+		
+		return Books(choices)
+	
 	
 	def get(self, item):
 		"""
@@ -211,6 +200,17 @@ class Books(List):
 			return
 		else:
 			return entity
+	
+	
+	def getmany(self, items):
+		
+		results = Books()
+		
+		for book in self.iter():
+			if book.id in items:
+				results.append(entity)
+		
+		return results
 	
 	
 	def __getitem__(self, item):
