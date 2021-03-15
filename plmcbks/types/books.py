@@ -202,7 +202,7 @@ class Books(List):
 			return entity
 	
 	
-	def getmany(self, items):
+	def get_many(self, items):
 		
 		results = Books()
 		
