@@ -52,7 +52,7 @@ class Entities(List):
 	
 	
 	def get_random(self, choices=1):
-		"""Este método irá retornar um ou mais livro aleatório da lista."""
+		"""Este método irá retornar uma ou mais entidades aleatórias da lista."""
 		
 		choices = random.choices(self.list(), k=choices)
 		

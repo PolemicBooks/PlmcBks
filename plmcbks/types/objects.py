@@ -112,8 +112,11 @@ class Dict(Object):
 class List(Object):
 	
 	
-	def __init__(self, _list=[]):
-		self._list = []
+	def __init__(self, _list=None):
+		if _list is None:
+			self._list = []
+		else:
+			self._list = _list
 	
 	
 	def __iter__(self):
