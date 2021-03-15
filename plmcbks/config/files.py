@@ -16,3 +16,6 @@ BOOKS_DATA = (
 	os.path.join(PACKAGE_PATH, "years.json.xz"),
 	os.path.join(PACKAGE_PATH, "books.json.xz")
 )
+
+LAST_MODIFIED = os.path.getctime(
+	os.path.join(PACKAGE_PATH, "books.json.xz"))
