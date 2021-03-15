@@ -1,3 +1,5 @@
+import random
+
 from ..utils.strings import to_query
 from .books import Books
 from .objects import Dict, List
