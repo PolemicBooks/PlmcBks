@@ -61,9 +61,7 @@ class Entities(List):
 	
 	def __getitem__(self, item):
 		if isinstance(item, int):
-			for entity in self.iter():
-				if entity.id == entity:
-					return entity
+			return self.list()[item]
 		elif isinstance(item, str):
 			for entity in self.iter():
 				if entity.name == item:
