@@ -21,12 +21,12 @@ message = client.get_messages(
 	FALLBACK_COVER["chat_id"], FALLBACK_COVER["message_id"])
 
 fallback_photo = {
-	"id": None,
 	"message_id": message.message_id,
 	"date": message.photo.date,
 	"file_extension": "jpeg",
 	"file_name": "no_cover" + ".jpeg",
 	"file_size": message.photo.file_size,
+	"file_unique_id": message.photo.file_unique_id,
 	"mime_type": "image/jpeg",
 	"resolution": {
 		"height": message.photo.height,
@@ -37,8 +37,13 @@ fallback_photo = {
 book = {}
 
 book_id = 0
-cover_id = 0
-document_id = 0
+
+if os.path.exists(INVALID_MESSAGES_FILE):
+	with lzma.open(filename=INVALID_MESSAGES_FILE, mode="r") as file:
+		content = file.read().decode()
+	invalid_messages = json.loads(content)
+else:
+	invalid_messages = []
 
 while message_id < MAX_MESSAGES:
 	
@@ -48,9 +53,13 @@ while message_id < MAX_MESSAGES:
 	if message_id in IGNORED_MESSAGES:
 		continue
 	
+	if message.id in invalid_messages:
+		continue
+	
 	message = client.get_messages(BOOKS_CHAT, message_id)
 	
 	if message.empty or message.service:
+		invalid_messages.append(message.id)
 		continue
 	
 	if message.photo and message.caption:
@@ -79,12 +88,12 @@ while message_id < MAX_MESSAGES:
 			"chapters": extrctd["chapters"],
 			"language": extrctd["language"],
 			"cover": {
-				"id": cover_id,
 				"message_id": message.message_id,
 				"date": message.photo.date,
 				"file_extension": "jpeg",
 				"file_name": extrctd["title"] + ".jpeg" if extrctd["title"] is not None else "cover.jpeg",
 				"file_size": message.photo.file_size,
+				"file_unique_id": message.photo.file_unique_id,
 				"mime_type": "image/jpeg",
 				"resolution": {
 					"height": message.photo.height,
@@ -95,7 +104,6 @@ while message_id < MAX_MESSAGES:
 		}
 		
 		book_id += 1
-		cover_id += 1
 		
 		continue
 		
@@ -137,12 +145,12 @@ while message_id < MAX_MESSAGES:
 	
 	if message.document:
 		document = {
-			"id": document_id,
 			"message_id": message.message_id,
 			"date": message.document.date,
 			"file_extension": message.document.file_name.split(".")[-1],
 			"file_name": message.document.file_name,
 			"file_size": message.document.file_size,
+			"file_unique_id": message.document.file_unique_id,
 			"mime_type": message.document.mime_type
 		}
 		
@@ -151,8 +159,6 @@ while message_id < MAX_MESSAGES:
 		book["documents"].append(document)
 		
 		print(json.dumps(book, indent=4))
-		
-		document_id += 1
 		
 
 books.append(book)
@@ -212,3 +218,10 @@ for data, filename in files:
 	data_bytes = bytes(json.dumps(data), encoding="utf-8")
 	with lzma.open(filename=filename, **LZMA_COMPRESSION) as file:
 		file.write(data_bytes)
+
+with lzma.open(filename=INVALID_MESSAGES_FILE, **LZMA_COMPRESSION) as file:
+	invalid_messages = [
+		message_id for message_id in invalid_messages if message_id <= book["message_id"]
+	]
+	data_bytes = bytes(json.dumps(invalid_messages), encoding="utf-8")
+	file.write(data_bytes)

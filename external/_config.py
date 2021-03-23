@@ -4,7 +4,7 @@ import lzma
 
 CWD = pathlib.Path(os.getcwd())
 
-BOOKS_DIRECTORY = os.path.join(CWD.parent, "plmcbks/package_data")
+PACKAGE_DATA = os.path.join(CWD.parent, "plmcbks/package_data")
 
 PYROGRAM_OPTIONS = {
 	"session_name": "bot",
@@ -31,4 +31,6 @@ FALLBACK_COVER = {
 
 MAX_MESSAGES = 150000
 
-IGNORED_MESSAGES = (2, 10596, 10597, 13337, 131117, 146389)
+IGNORED_MESSAGES = (2, 10596, 10597, 13337, 131117, 146389, 148442)
+
+INVALID_MESSAGES_FILE = os.path.join(PACKAGE_DATA, "invalid_messages.json.xz")
