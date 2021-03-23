@@ -53,13 +53,13 @@ while message_id < MAX_MESSAGES:
 	if message_id in IGNORED_MESSAGES:
 		continue
 	
-	if message.id in invalid_messages:
+	if message_id in invalid_messages:
 		continue
 	
 	message = client.get_messages(BOOKS_CHAT, message_id)
 	
 	if message.empty or message.service:
-		invalid_messages.append(message.id)
+		invalid_messages.append(message_id)
 		continue
 	
 	if message.photo and message.caption:
