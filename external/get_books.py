@@ -27,6 +27,7 @@ fallback_photo = {
 	"file_name": "no_cover" + ".jpeg",
 	"file_size": message.photo.file_size,
 	"file_unique_id": message.photo.file_unique_id,
+	"gdrive_id": None,
 	"mime_type": "image/jpeg",
 	"resolution": {
 		"height": message.photo.height,
@@ -94,6 +95,7 @@ while message_id < MAX_MESSAGES:
 				"file_name": extrctd["title"] + ".jpeg" if extrctd["title"] is not None else "cover.jpeg",
 				"file_size": message.photo.file_size,
 				"file_unique_id": message.photo.file_unique_id,
+				"gdrive_id": None,
 				"mime_type": "image/jpeg",
 				"resolution": {
 					"height": message.photo.height,
@@ -151,6 +153,7 @@ while message_id < MAX_MESSAGES:
 			"file_name": message.document.file_name,
 			"file_size": message.document.file_size,
 			"file_unique_id": message.document.file_unique_id,
+			"gdrive_id": None,
 			"mime_type": message.document.mime_type
 		}
 		
