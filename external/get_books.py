@@ -204,14 +204,14 @@ narrators.sort()
 publishers.sort()
 
 files = [
-	(categories, os.path.join(BOOKS_DIRECTORY, "categories.json.xz")),
-	(types, os.path.join(BOOKS_DIRECTORY, "types.json.xz")),
-	(authors, os.path.join(BOOKS_DIRECTORY, "authors.json.xz")),
-	(artists, os.path.join(BOOKS_DIRECTORY, "artists.json.xz")),
-	(narrators, os.path.join(BOOKS_DIRECTORY, "narrators.json.xz")),
-	(publishers, os.path.join(BOOKS_DIRECTORY, "publishers.json.xz")),
-	(years, os.path.join(BOOKS_DIRECTORY, "years.json.xz")),
-	(books, os.path.join(BOOKS_DIRECTORY, "books.json.xz"))
+	(categories, os.path.join(PACKAGE_DATA, "categories.json.xz")),
+	(types, os.path.join(PACKAGE_DATA, "types.json.xz")),
+	(authors, os.path.join(PACKAGE_DATA, "authors.json.xz")),
+	(artists, os.path.join(PACKAGE_DATA, "artists.json.xz")),
+	(narrators, os.path.join(PACKAGE_DATA, "narrators.json.xz")),
+	(publishers, os.path.join(PACKAGE_DATA, "publishers.json.xz")),
+	(years, os.path.join(PACKAGE_DATA, "years.json.xz")),
+	(books, os.path.join(PACKAGE_DATA, "books.json.xz"))
 ]
 
 for data, filename in files:
