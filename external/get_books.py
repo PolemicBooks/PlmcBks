@@ -166,7 +166,7 @@ while message_id < MAX_MESSAGES:
 		
 		book["documents"].append(document)
 		
-		print(orjson.dumps(book, indent=4))
+		print(message_id)
 		
 
 books.append(book)
