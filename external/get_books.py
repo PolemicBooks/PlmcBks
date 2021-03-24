@@ -1,8 +1,8 @@
-import json
 import time
 import os
 
-from pyrogram import Client
+import orjson
+import pyrogram
 
 from _config import *
 from _core import Scraper
@@ -14,19 +14,20 @@ scraper = Scraper()
 
 books = []
 
-client = Client(**PYROGRAM_OPTIONS)
+client = pyrogram.Client(**PYROGRAM_OPTIONS)
 client.start()
 
 message = client.get_messages(
 	FALLBACK_COVER["chat_id"], FALLBACK_COVER["message_id"])
 
 fallback_photo = {
+	"id": None,
 	"message_id": message.message_id,
 	"date": message.photo.date,
 	"file_extension": "jpeg",
 	"file_size": message.photo.file_size,
 	"file_unique_id": message.photo.file_unique_id,
-	"gdrive_id": None,
+	"file_gdrive_id": None,
 	"mime_type": "image/jpeg",
 	"resolution": {
 		"height": message.photo.height,
@@ -37,11 +38,12 @@ fallback_photo = {
 book = {}
 
 book_id = 0
+cover_id = 0
+document_id = 0
 
 if os.path.exists(INVALID_MESSAGES_FILE):
 	with lzma.open(filename=INVALID_MESSAGES_FILE, mode="r") as file:
-		content = file.read().decode()
-	invalid_messages = json.loads(content)
+		invalid_messages = orjson.loads(file.read())
 else:
 	invalid_messages = []
 
@@ -88,12 +90,13 @@ while message_id < MAX_MESSAGES:
 			"chapters": extrctd["chapters"],
 			"language": extrctd["language"],
 			"cover": {
+				"id": cover_id,
 				"message_id": message.message_id,
 				"date": message.photo.date,
 				"file_extension": "jpeg",
 				"file_size": message.photo.file_size,
 				"file_unique_id": message.photo.file_unique_id,
-				"gdrive_id": None,
+				"file_gdrive_id": None,
 				"mime_type": "image/jpeg",
 				"resolution": {
 					"height": message.photo.height,
@@ -104,6 +107,7 @@ while message_id < MAX_MESSAGES:
 		}
 		
 		book_id += 1
+		cover_id += 1
 		
 		continue
 		
@@ -115,7 +119,7 @@ while message_id < MAX_MESSAGES:
 		extrctd = scraper.extract()
 		
 		fallback = dict(fallback_photo)
-		fallback["id"] = book_id
+		fallback["id"] = cover_id
 		
 		book = {
 			"id": book_id,
@@ -140,25 +144,29 @@ while message_id < MAX_MESSAGES:
 		}
 		
 		book_id += 1
+		cover_id += 1
 		
 		continue
 	
 	if message.document:
 		document = {
+			"id": document_id,
 			"message_id": message.message_id,
 			"date": message.document.date,
 			"file_extension": message.document.file_name.split(".")[-1],
 			"file_size": message.document.file_size,
 			"file_unique_id": message.document.file_unique_id,
-			"gdrive_id": None,
+			"file_gdrive_id": None,
 			"mime_type": message.document.mime_type
 		}
+		
+		document_id += 1
 		
 		book["total_size"] += message.document.file_size
 		
 		book["documents"].append(document)
 		
-		print(json.dumps(book, indent=4))
+		print(orjson.dumps(book, indent=4))
 		
 
 books.append(book)
@@ -204,24 +212,21 @@ narrators.sort()
 publishers.sort()
 
 files = [
-	(categories, os.path.join(PACKAGE_DATA, "categories.json.xz")),
-	(types, os.path.join(PACKAGE_DATA, "types.json.xz")),
-	(authors, os.path.join(PACKAGE_DATA, "authors.json.xz")),
-	(artists, os.path.join(PACKAGE_DATA, "artists.json.xz")),
-	(narrators, os.path.join(PACKAGE_DATA, "narrators.json.xz")),
-	(publishers, os.path.join(PACKAGE_DATA, "publishers.json.xz")),
-	(years, os.path.join(PACKAGE_DATA, "years.json.xz")),
-	(books, os.path.join(PACKAGE_DATA, "books.json.xz"))
+	(categories, os.path.join(PACKAGE_DATA, "categories.orjson.xz")),
+	(types, os.path.join(PACKAGE_DATA, "types.orjson.xz")),
+	(authors, os.path.join(PACKAGE_DATA, "authors.orjson.xz")),
+	(artists, os.path.join(PACKAGE_DATA, "artists.orjson.xz")),
+	(narrators, os.path.join(PACKAGE_DATA, "narrators.orjson.xz")),
+	(publishers, os.path.join(PACKAGE_DATA, "publishers.orjson.xz")),
+	(years, os.path.join(PACKAGE_DATA, "years.orjson.xz")),
+	(books, os.path.join(PACKAGE_DATA, "books.orjson.xz"))
 ]
 
 for data, filename in files:
-	data_bytes = bytes(json.dumps(data), encoding="utf-8")
 	with lzma.open(filename=filename, **LZMA_COMPRESSION) as file:
-		file.write(data_bytes)
+		file.write(orjson.dumps(data))
 
 with lzma.open(filename=INVALID_MESSAGES_FILE, **LZMA_COMPRESSION) as file:
-	invalid_messages = [
-		message_id for message_id in invalid_messages if message_id <= book["message_id"]
-	]
-	data_bytes = bytes(json.dumps(invalid_messages), encoding="utf-8")
-	file.write(data_bytes)
+	file.write(orjson.dumps([message_id for message_id in invalid_messages if message_id <= book["message_id"]]))
+
+client.log_out()
