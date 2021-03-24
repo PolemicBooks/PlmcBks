@@ -212,14 +212,14 @@ narrators.sort()
 publishers.sort()
 
 files = [
-	(categories, os.path.join(PACKAGE_DATA, "categories.orjson.xz")),
-	(types, os.path.join(PACKAGE_DATA, "types.orjson.xz")),
-	(authors, os.path.join(PACKAGE_DATA, "authors.orjson.xz")),
-	(artists, os.path.join(PACKAGE_DATA, "artists.orjson.xz")),
-	(narrators, os.path.join(PACKAGE_DATA, "narrators.orjson.xz")),
-	(publishers, os.path.join(PACKAGE_DATA, "publishers.orjson.xz")),
-	(years, os.path.join(PACKAGE_DATA, "years.orjson.xz")),
-	(books, os.path.join(PACKAGE_DATA, "books.orjson.xz"))
+	(categories, os.path.join(PACKAGE_DATA, "categories.json.xz")),
+	(types, os.path.join(PACKAGE_DATA, "types.json.xz")),
+	(authors, os.path.join(PACKAGE_DATA, "authors.json.xz")),
+	(artists, os.path.join(PACKAGE_DATA, "artists.json.xz")),
+	(narrators, os.path.join(PACKAGE_DATA, "narrators.json.xz")),
+	(publishers, os.path.join(PACKAGE_DATA, "publishers.json.xz")),
+	(years, os.path.join(PACKAGE_DATA, "years.json.xz")),
+	(books, os.path.join(PACKAGE_DATA, "books.json.xz"))
 ]
 
 for data, filename in files:
