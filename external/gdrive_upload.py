@@ -3,6 +3,7 @@ import lzma
 
 import pyrogram
 import orjson
+from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
 from _config import (
@@ -25,6 +26,7 @@ with lzma.open(filename=books_file, mode="r") as file:
 	books = orjson.loads(file.read())
 
 # Create GoogleDrive instance with authenticated GoogleAuth instance.
+gauth = GoogleAuth()
 drive = GoogleDrive(gauth)
 
 client = pyrogram.Client(**PYROGRAM_OPTIONS)
