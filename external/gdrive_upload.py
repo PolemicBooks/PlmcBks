@@ -37,7 +37,7 @@ for index, book in enumerate(books):
 		message = client.get_messages(BOOKS_CHAT, book["cover"]["message_id"])
 		upload_file = client.download_media(message)
 		
-		photo = drive.CreateFile({'title': book["title"] + book["cover"]["file_extension"]})
+		photo = drive.CreateFile({'title': str(book["title"])})
 		photo.SetContentFile(upload_file)
 		photo.Upload()
 		
