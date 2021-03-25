@@ -4,4 +4,4 @@ plmcbks.egg-info/
 __pycache__/
 external/_config.py
 external/.pyrogram
-external/client_secrets.json
+external/settings.yaml

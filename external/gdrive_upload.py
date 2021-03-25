@@ -32,7 +32,7 @@ drive = GoogleDrive(gauth)
 client = pyrogram.Client(**PYROGRAM_OPTIONS)
 client.start()
 
-for index, book in enumerate(books):
+for book in books:
 	if gdrive.get(book["cover"]["file_unique_id"]) is None:
 		message = client.get_messages(BOOKS_CHAT, book["cover"]["message_id"])
 		upload_file = client.download_media(message)
@@ -47,7 +47,8 @@ for index, book in enumerate(books):
 			{
 				'type': 'anyone',
 				'value': 'anyone',
-				'role': 'reader'}
+				'role': 'reader'
+			}
 		)
 		
 		gdrive.update({book["cover"]["file_unique_id"]: photo["id"]})
