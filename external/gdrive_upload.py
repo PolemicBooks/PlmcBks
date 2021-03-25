@@ -7,6 +7,7 @@ from pyrogram.errors import UnknownError
 import orjson
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
+from pydrive2.files import ApiRequestError
 
 from _config import (
 	PACKAGE_DATA,
@@ -56,11 +57,19 @@ for index, book in enumerate(books):
 		photo.SetContentFile(upload_file)
 		photo.Upload()
 		
-		# Torno público o arquivo que foi enviado
-		photo.InsertPermission({
-			'type': 'anyone',
-			'value': 'anyone',
-			'role': 'reader'})
+		success = None
+		
+		while not success:
+			try:
+				# Torno público o arquivo que foi enviado
+				photo.InsertPermission({
+					'type': 'anyone',
+					'value': 'anyone',
+					'role': 'reader'})
+			except ApiRequestError:
+				pass
+			else:
+				success = True
 		
 		# Salvo o ID do arquivo enviado
 		gdrive.update({book["cover"]["file_unique_id"]: photo["id"]})
