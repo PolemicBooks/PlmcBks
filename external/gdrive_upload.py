@@ -55,7 +55,16 @@ for index, book in enumerate(books):
 		# Envio a imagem local para o Google Drive
 		photo = drive.CreateFile({'title': str(book["title"])})
 		photo.SetContentFile(upload_file)
-		photo.Upload()
+		
+		success = None
+		
+		while not success:
+			try:
+				photo.Upload()
+			except ApiRequestError:
+				pass
+			else:
+				success = True
 		
 		success = None
 		
