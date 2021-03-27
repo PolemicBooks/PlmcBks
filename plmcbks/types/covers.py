@@ -28,5 +28,12 @@ class Cover(Dict):
 		self.resolution = resolution
 
 
+	def get_book(self, books):
+		
+		for book in books.iter():
+			if book.cover is self:
+				return book
+
+
 class Covers(Documents):
 	pass

@@ -25,6 +25,13 @@ class Document(Dict):
 		self.mime_type = mime_type
 
 
+	def get_book(self, books):
+		
+		for book in books.iter():
+			for document in book.documents.iter():
+				if document is self:
+					return book
+
 
 class Documents(List):
 	
