@@ -98,7 +98,9 @@ class Scraper:
 		result = self.genre.findall(self.text)
 		
 		if result:
-			return result[0].strip()
+			return [
+				genre.strip() for genre in result[0].split(sep=",")
+			]
 	
 	
 	def get_volumes(self):
@@ -141,6 +143,19 @@ class Scraper:
 			return result[0].strip()
 	
 	
+	def get_flags(self):
+		
+		flags = []
+		
+		if "__O material apresentado pode ser de baixa qualidade.__" in self.text:
+			flags.append("poor_quality")
+	
+		if "__Capítulos ou páginas podem estar faltando.__" in self.text:
+			flags.append("missing_content")
+		
+		return flags
+	
+	
 	def set_text(self, text):
 		self.text = text
 	
@@ -160,6 +175,7 @@ class Scraper:
 			"genre": self.get_genre(),
 			"volumes": self.get_volumes(),
 			"chapters": self.get_chapters(),
-			"language": self.get_language()
+			"language": self.get_language(),
+			"flags": self.get_flags()
 		}
 

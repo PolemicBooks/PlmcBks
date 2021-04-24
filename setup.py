@@ -22,7 +22,8 @@ classifiers = [
 	"Programming Language :: Python :: 3.6",
 	"Programming Language :: Python :: 3.7",
 	"Programming Language :: Python :: 3.8",
-	"Programming Language :: Python :: 3.9"
+	"Programming Language :: Python :: 3.9",
+	"Programming Language :: Python :: 3.10"
 ]
 
 packages = [
@@ -35,8 +36,8 @@ packages = [
 setup(
 	name="PlmcBks",
 	version="0.1",
-	author="SnwMds",
-	author_email="snwmds@tutanota.com",
+	author="Polemic Books",
+	author_email="plmcbks@pm.me",
 	description="API interna do Polemic Books.",
 	license="LGPL-3.0",
 	url="https://github.com/PolemicBooks/PlmcBks",

@@ -27,7 +27,6 @@ fallback_photo = {
 	"file_extension": "jpeg",
 	"file_size": message.photo.file_size,
 	"file_unique_id": message.photo.file_unique_id,
-	"file_gdrive_id": None,
 	"mime_type": "image/jpeg",
 	"resolution": {
 		"height": message.photo.height,
@@ -96,13 +95,13 @@ while message_id < MAX_MESSAGES:
 				"file_extension": "jpeg",
 				"file_size": message.photo.file_size,
 				"file_unique_id": message.photo.file_unique_id,
-				"file_gdrive_id": None,
 				"mime_type": "image/jpeg",
 				"resolution": {
 					"height": message.photo.height,
 					"width": message.photo.width
 				}
 			},
+			"flags": extrctd["flags"],
 			"documents": [],
 		}
 		
@@ -140,6 +139,7 @@ while message_id < MAX_MESSAGES:
 			"chapters": extrctd["chapters"],
 			"language": extrctd["language"],
 			"cover": fallback,
+			"flags": extrctd["flags"],
 			"documents": []
 		}
 		
@@ -156,7 +156,6 @@ while message_id < MAX_MESSAGES:
 			"file_extension": message.document.file_name.split(".")[-1],
 			"file_size": message.document.file_size,
 			"file_unique_id": message.document.file_unique_id,
-			"file_gdrive_id": None,
 			"mime_type": message.document.mime_type
 		}
 		

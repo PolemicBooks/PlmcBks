@@ -182,7 +182,6 @@ for book in json.loads(content):
 			file_extension=document["file_extension"],
 			file_size=document["file_size"],
 			file_unique_id=document["file_unique_id"],
-			file_gdrive_id=document["file_gdrive_id"],
 			mime_type=document["mime_type"]
 		)
 		
@@ -196,7 +195,6 @@ for book in json.loads(content):
 		file_extension=book["cover"]["file_extension"],
 		file_size=book["cover"]["file_size"],
 		file_unique_id=book["cover"]["file_unique_id"],
-		file_gdrive_id=book["cover"]["file_gdrive_id"],
 		mime_type=book["cover"]["mime_type"],
 		resolution=Resolution(
 			height=book["cover"]["resolution"]["height"],
