@@ -27,6 +27,7 @@ class Book(Dict):
 		chapters,
 		language,
 		cover,
+		flags,
 		documents
 	):
 		self.id = id
@@ -47,6 +48,7 @@ class Book(Dict):
 		self.chapters = chapters
 		self.language = language
 		self.cover = cover
+		self.flags = flags
 		self.documents = documents
 
 
