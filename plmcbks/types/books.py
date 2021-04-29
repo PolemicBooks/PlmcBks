@@ -25,7 +25,6 @@ class Book(Dict):
 		year,
 		volumes,
 		chapters,
-		language,
 		cover,
 		flags,
 		documents
@@ -46,7 +45,6 @@ class Book(Dict):
 		self.year = year
 		self.volumes = volumes
 		self.chapters = chapters
-		self.language = language
 		self.cover = cover
 		self.flags = flags
 		self.documents = documents

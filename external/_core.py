@@ -17,7 +17,6 @@ class Scraper:
 		self.genre = re.compile(r"\n\*\*Gênero\*\*:\s__(.+)__")
 		self.volumes = re.compile(r"\n\*\*Volumes\*\*:\s__(.+)__")
 		self.chapters = re.compile(r"\n\*\*Capítulos\*\*:\s__(.+)__")
-		self.language = re.compile(r"\n\*\*Idioma\*\*:\s__(.+)__")
 	
 	
 	def get_title(self):
@@ -135,14 +134,6 @@ class Scraper:
 					return _float
 	
 	
-	def get_language(self):
-		
-		result = self.language.findall(self.text)
-		
-		if result:
-			return result[0].strip()
-	
-	
 	def get_flags(self):
 		
 		flags = []
@@ -175,7 +166,6 @@ class Scraper:
 			"genre": self.get_genre(),
 			"volumes": self.get_volumes(),
 			"chapters": self.get_chapters(),
-			"language": self.get_language(),
 			"flags": self.get_flags()
 		}
 

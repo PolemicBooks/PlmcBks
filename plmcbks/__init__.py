@@ -222,7 +222,6 @@ for book in json.loads(content):
 			year=year,
 			volumes=book["volumes"],
 			chapters=book["chapters"],
-			language=book["language"],
 			cover=cover,
 			flags=books["flags"],
 			documents=book_docs

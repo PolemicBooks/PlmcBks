@@ -87,7 +87,6 @@ while message_id < MAX_MESSAGES:
 			"year": extrctd["year"],
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
-			"language": extrctd["language"],
 			"cover": {
 				"id": cover_id,
 				"message_id": message.message_id,
@@ -137,7 +136,6 @@ while message_id < MAX_MESSAGES:
 			"year": extrctd["year"],
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
-			"language": extrctd["language"],
 			"cover": fallback,
 			"flags": extrctd["flags"],
 			"documents": []
