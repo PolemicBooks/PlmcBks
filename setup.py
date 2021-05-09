@@ -38,7 +38,7 @@ packages = [
 
 setup(
 	name="PlmcBks",
-	version="0.1",
+	version="0.2",
 	author="Polemic Books",
 	author_email="plmcbks@pm.me",
 	description="API interna do Polemic Books.",
