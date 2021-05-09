@@ -223,7 +223,7 @@ for book in json.loads(content):
 			volumes=book["volumes"],
 			chapters=book["chapters"],
 			cover=cover,
-			flags=books["flags"],
+			flags=book["flags"],
 			documents=book_docs
 		)
 	)
