@@ -24,7 +24,8 @@ fallback_photo = {
 	"id": None,
 	"message_id": message.message_id,
 	"date": message.photo.date,
-	"file_extension": "jpeg",
+	"file_name": "generic_cover" + "." + "jpg",
+	"file_extension": "jpg",
 	"file_size": message.photo.file_size,
 	"file_unique_id": message.photo.file_unique_id,
 	"mime_type": "image/jpeg",
@@ -70,6 +71,9 @@ while message_id < MAX_MESSAGES:
 		scraper.set_text(message.caption.markdown)
 		extrctd = scraper.extract()
 		
+		fallback = dict(fallback_photo)
+		fallback["id"] = cover_id
+		
 		book = {
 			"id": book_id,
 			"message_id": message.message_id,
@@ -87,11 +91,12 @@ while message_id < MAX_MESSAGES:
 			"year": extrctd["year"],
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
-			"cover": {
+			"cover": fallback if message.photo.file_unique_id == "AQAD4vP0KF0AA78lAwAB" else {
 				"id": cover_id,
 				"message_id": message.message_id,
 				"date": message.photo.date,
-				"file_extension": "jpeg",
+				"file_name": extrctd["title"].replace("/", "+").replace("\\", "+") + "." + "jpg",
+				"file_extension": "jpg",
 				"file_size": message.photo.file_size,
 				"file_unique_id": message.photo.file_unique_id,
 				"mime_type": "image/jpeg",
@@ -151,6 +156,7 @@ while message_id < MAX_MESSAGES:
 			"id": document_id,
 			"message_id": message.message_id,
 			"date": message.document.date,
+			"file_name": message.document.file_name,
 			"file_extension": message.document.file_name.split(".")[-1],
 			"file_size": message.document.file_size,
 			"file_unique_id": message.document.file_unique_id,
