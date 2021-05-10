@@ -24,6 +24,7 @@ fallback_photo = {
 	"id": None,
 	"message_id": message.message_id,
 	"date": message.photo.date,
+	"views": message.views,
 	"file_name": "generic_cover" + "." + "jpg",
 	"file_extension": "jpg",
 	"file_size": message.photo.file_size,
@@ -78,6 +79,7 @@ while message_id < MAX_MESSAGES:
 			"id": book_id,
 			"message_id": message.message_id,
 			"date": message.date,
+			"views": message.views,
 			"title": extrctd["title"],
 			"type": extrctd["type"],
 			"category": extrctd["category"],
@@ -91,6 +93,7 @@ while message_id < MAX_MESSAGES:
 			"year": extrctd["year"],
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
+			"flags": extrctd["flags"],
 			"cover": fallback if message.photo.file_unique_id == "AQAD4vP0KF0AA78lAwAB" else {
 				"id": cover_id,
 				"message_id": message.message_id,
@@ -105,7 +108,6 @@ while message_id < MAX_MESSAGES:
 					"width": message.photo.width
 				}
 			},
-			"flags": extrctd["flags"],
 			"documents": [],
 		}
 		
@@ -128,6 +130,7 @@ while message_id < MAX_MESSAGES:
 			"id": book_id,
 			"message_id": message.message_id,
 			"date": message.date,
+			"views": message.views,
 			"title": extrctd["title"],
 			"type": extrctd["type"],
 			"category": extrctd["category"],
@@ -141,8 +144,8 @@ while message_id < MAX_MESSAGES:
 			"year": extrctd["year"],
 			"volumes": extrctd["volumes"],
 			"chapters": extrctd["chapters"],
-			"cover": fallback,
 			"flags": extrctd["flags"],
+			"cover": fallback,
 			"documents": []
 		}
 		
@@ -156,6 +159,7 @@ while message_id < MAX_MESSAGES:
 			"id": document_id,
 			"message_id": message.message_id,
 			"date": message.document.date,
+			"views": message.views,
 			"file_name": message.document.file_name,
 			"file_extension": message.document.file_name.split(".")[-1],
 			"file_size": message.document.file_size,
@@ -168,9 +172,6 @@ while message_id < MAX_MESSAGES:
 		book["total_size"] += message.document.file_size
 		
 		book["documents"].append(document)
-		
-		print(message_id)
-		
 
 books.append(book)
 
