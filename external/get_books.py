@@ -25,7 +25,7 @@ fallback_photo = {
 	"message_id": message.message_id,
 	"date": message.photo.date,
 	"views": message.views,
-	"file_name": "generic_cover" + "." + "jpg",
+	"file_name": "unk" + "." + "jpg",
 	"file_extension": "jpg",
 	"file_size": message.photo.file_size,
 	"file_unique_id": message.photo.file_unique_id,
@@ -79,7 +79,6 @@ while message_id < MAX_MESSAGES:
 			"id": book_id,
 			"message_id": message.message_id,
 			"date": message.date,
-			"views": message.views,
 			"title": extrctd["title"],
 			"type": extrctd["type"],
 			"category": extrctd["category"],
@@ -91,14 +90,14 @@ while message_id < MAX_MESSAGES:
 			"narrator": extrctd["narrator"],
 			"publisher": extrctd["publisher"],
 			"year": extrctd["year"],
-			"volumes": extrctd["volumes"],
-			"chapters": extrctd["chapters"],
-			"flags": extrctd["flags"],
+			"total_volumes": extrctd["volumes"],
+			"total_chapters": extrctd["chapters"],
+			"views": message.views,
 			"cover": fallback if message.photo.file_unique_id == "AQAD4vP0KF0AA78lAwAB" else {
 				"id": cover_id,
 				"message_id": message.message_id,
 				"date": message.photo.date,
-				"file_name": extrctd["title"].replace("/", "+").replace("\\", "+") + "." + "jpg",
+				"file_name": "unk.jpg" if extrctd["title"] is None else extrctd["title"].replace("/", "+").replace("\\", "+") + "." + "jpg",
 				"file_extension": "jpg",
 				"file_size": message.photo.file_size,
 				"file_unique_id": message.photo.file_unique_id,
@@ -108,6 +107,7 @@ while message_id < MAX_MESSAGES:
 					"width": message.photo.width
 				}
 			},
+			"flags": extrctd["flags"],
 			"documents": [],
 		}
 		
@@ -130,7 +130,6 @@ while message_id < MAX_MESSAGES:
 			"id": book_id,
 			"message_id": message.message_id,
 			"date": message.date,
-			"views": message.views,
 			"title": extrctd["title"],
 			"type": extrctd["type"],
 			"category": extrctd["category"],
@@ -142,10 +141,11 @@ while message_id < MAX_MESSAGES:
 			"narrator": extrctd["narrator"],
 			"publisher": extrctd["publisher"],
 			"year": extrctd["year"],
-			"volumes": extrctd["volumes"],
-			"chapters": extrctd["chapters"],
-			"flags": extrctd["flags"],
+			"total_volumes": extrctd["volumes"],
+			"total_chapters": extrctd["chapters"],
+			"views": message.views,
 			"cover": fallback,
+			"flags": extrctd["flags"],
 			"documents": []
 		}
 		
@@ -159,12 +159,12 @@ while message_id < MAX_MESSAGES:
 			"id": document_id,
 			"message_id": message.message_id,
 			"date": message.document.date,
-			"views": message.views,
 			"file_name": message.document.file_name,
 			"file_extension": message.document.file_name.split(".")[-1],
 			"file_size": message.document.file_size,
 			"file_unique_id": message.document.file_unique_id,
-			"mime_type": message.document.mime_type
+			"mime_type": message.document.mime_type,
+			"views": message.views
 		}
 		
 		document_id += 1
