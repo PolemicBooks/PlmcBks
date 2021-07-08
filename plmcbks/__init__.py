@@ -179,10 +179,13 @@ for book in json.loads(content):
 			id=document["id"],
 			message_id=document["message_id"],
 			date=document["date"],
+			file_name=document["file_name"],
 			file_extension=document["file_extension"],
 			file_size=document["file_size"],
+			file_id=document["file_id"],
 			file_unique_id=document["file_unique_id"],
-			mime_type=document["mime_type"]
+			mime_type=document["mime_type"],
+			message_views=document["message_views"]
 		)
 		
 		book_docs.append(doc)
@@ -192,8 +195,10 @@ for book in json.loads(content):
 		id=book["cover"]["id"],
 		message_id=book["cover"]["message_id"],
 		date=book["cover"]["date"],
+		file_name=book["cover"]["file_name"],
 		file_extension=book["cover"]["file_extension"],
 		file_size=book["cover"]["file_size"],
+		file_id=book["cover"]["file_id"],
 		file_unique_id=book["cover"]["file_unique_id"],
 		mime_type=book["cover"]["mime_type"],
 		resolution=Resolution(
@@ -220,8 +225,9 @@ for book in json.loads(content):
 			narrator=narrator,
 			publisher=publisher,
 			year=year,
-			volumes=book["volumes"],
-			chapters=book["chapters"],
+			total_volumes=book["total_volumes"],
+			total_chapters=book["total_chapters"],
+			message_views=book["message_views"],
 			cover=cover,
 			flags=book["flags"],
 			documents=book_docs

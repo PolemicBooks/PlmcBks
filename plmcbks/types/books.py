@@ -23,8 +23,8 @@ class Book(Dict):
 		narrator,
 		publisher,
 		year,
-		volumes,
-		chapters,
+		total_volumes,
+		total_chapters,
 		cover,
 		flags,
 		documents
@@ -43,8 +43,9 @@ class Book(Dict):
 		self.narrator = narrator
 		self.publisher = publisher
 		self.year = year
-		self.volumes = volumes
-		self.chapters = chapters
+		self.total_volumes = total_volumes
+		self.total_chapters = total_chapters
+		self.message_views = message_views
 		self.cover = cover
 		self.flags = flags
 		self.documents = documents
