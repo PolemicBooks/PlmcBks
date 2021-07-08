@@ -25,6 +25,7 @@ class Book(Dict):
 		year,
 		total_volumes,
 		total_chapters,
+		message_views,
 		cover,
 		flags,
 		documents
