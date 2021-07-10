@@ -52,6 +52,48 @@ class Book(Dict):
 		self.documents = documents
 
 
+	def __ge__(self, value):
+
+		if all((self.title, value.title)):
+			return self.title >= value.title
+
+		return False
+
+
+	def __le__(self, value):
+
+		if all((self.title, value.title)):
+			return self.title <= value.title
+
+		return False
+
+
+	def __lt__(self, value):
+
+		if all((self.title, value.title)):
+			return self.title < value.title
+
+		return False
+
+
+	def __eq__(self, value):
+
+		return self.title == value.title
+
+
+	def __ne__(self, value):
+
+		return self.title != value.title
+
+
+	def __gt__(self, value):
+
+		if all((self.title, value.title)):
+			return self.title > value.title
+
+		return False
+	
+
 class Books(List):
 	
 	
