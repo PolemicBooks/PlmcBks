@@ -178,20 +178,9 @@ while message_id < MAX_MESSAGES:
 
 books.append(book)
 
-message_ids = []
-
 for index, book in enumerate(list(books)):
-	
 	if not book["title"] or not book["type"] or not book["documents"]:
-		message_ids.append(book["message_id"])
-		message_ids += [
-			document["message_id"] for document in book["documents"]
-		]
-	
-	del books[index]
-
-with open(file="delete.json", mode="w") as file:
-	orjson.dumps(message_ids)
+		del books[index]
 
 categories, types, authors, artists, narrators, publishers, years = (
 	[], [], [], [], [], [], []
