@@ -179,14 +179,13 @@ while message_id < MAX_MESSAGES:
 
 books.append(book)
 
-for index, book in enumerate(list(books)):
-	if not book["title"] or not book["type"] or not book["documents"]:
-		del books[index]
-
 items = []
 new_books = []
 
-for book in books:
+for book in books
+	if not book["title"] or not book["type"] or not book["documents"]:
+		continue
+	
 	item = (("".join(character for character in unicodedata.normalize('NFD', book["title"]) if unicodedata.category(character) != 'Mn' and not character.isalnum())).lower(), book["type"])
 	
 	if item in items:
