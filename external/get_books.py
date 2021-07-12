@@ -1,5 +1,6 @@
 import time
 import os
+import unicodedata
 
 import orjson
 import pyrogram
@@ -182,11 +183,23 @@ for index, book in enumerate(list(books)):
 	if not book["title"] or not book["type"] or not book["documents"]:
 		del books[index]
 
+items = []
+new_books = []
+
+for book in books:
+	item = (("".join(character for character in unicodedata.normalize('NFD', book["title"]) if unicodedata.category(character) != 'Mn' and not character.isalnum())).lower(), book["type"])
+	
+	if item in items:
+		continue
+	
+	items.append(item)
+	new_books.append(book)
+	
 categories, types, authors, artists, narrators, publishers, years = (
 	[], [], [], [], [], [], []
 )
 
-for book in books:
+for book in new_books:
 	category, book_type, author, artist, year, narrator, publisher = (
 		book.get("category"), book.get("type"), book.get("author"),
 		book.get("artist"), book.get("year"), book.get("narrator"),
@@ -230,7 +243,7 @@ files = [
 	(narrators, os.path.join(PACKAGE_DATA, "narrators.json.xz")),
 	(publishers, os.path.join(PACKAGE_DATA, "publishers.json.xz")),
 	(years, os.path.join(PACKAGE_DATA, "years.json.xz")),
-	(books, os.path.join(PACKAGE_DATA, "books.json.xz"))
+	(new_books, os.path.join(PACKAGE_DATA, "books.json.xz"))
 ]
 
 for data, filename in files:
