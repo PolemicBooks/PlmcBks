@@ -190,10 +190,8 @@ for index, book in enumerate(list(books)):
 	
 	del books[index]
 
-client.delete_messages(
-	chat_id=BOOKS_CHAT,
-	message_ids=message_ids
-)
+with open(file="delete.json", mode="w") as file:
+	orjson.dumps(message_ids)
 
 categories, types, authors, artists, narrators, publishers, years = (
 	[], [], [], [], [], [], []
