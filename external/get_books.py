@@ -25,7 +25,7 @@ fallback_photo = {
 	"message_id": message.message_id,
 	"date": message.photo.date,
 	"message_views": message.views,
-	"file_name": "unk" + "." + "jpg",
+	"file_name": "unk.jpg",
 	"file_extension": "jpg",
 	"file_size": message.photo.file_size,
 	"file_id": message.photo.file_id,
@@ -177,6 +177,23 @@ while message_id < MAX_MESSAGES:
 		book["documents"].append(document)
 
 books.append(book)
+
+message_ids = []
+
+for index, book in enumerate(list(books)):
+	
+	if not book["title"] or not book["type"] or not book["documents"]:
+		message_ids.append(book["message_id"])
+		message_ids += [
+			document["message_id"] for document in book["documents"]
+		]
+	
+	del books[index]
+
+client.delete_messages(
+	chat_id=BOOKS_CHAT,
+	message_ids=message_ids
+)
 
 categories, types, authors, artists, narrators, publishers, years = (
 	[], [], [], [], [], [], []
