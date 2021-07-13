@@ -182,7 +182,7 @@ books.append(book)
 items = []
 new_books = []
 
-for book in books
+for book in books:
 	if not book["title"] or not book["type"] or not book["documents"]:
 		continue
 	
