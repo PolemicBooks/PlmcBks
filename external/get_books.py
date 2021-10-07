@@ -179,21 +179,6 @@ while message_id < MAX_MESSAGES:
 
 books.append(book)
 
-items = []
-new_books = []
-
-for book in books:
-	if not book["title"] or not book["type"] or not book["documents"]:
-		continue
-	
-	item = (("".join(character for character in unicodedata.normalize('NFD', book["title"]) if unicodedata.category(character) != 'Mn' and not character.isalnum())).lower(), book["type"])
-	
-	if item in items:
-		continue
-	
-	items.append(item)
-	new_books.append(book)
-	
 categories, types, authors, artists, narrators, publishers, years = (
 	[], [], [], [], [], [], []
 )
