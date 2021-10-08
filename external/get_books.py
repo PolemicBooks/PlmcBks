@@ -183,7 +183,7 @@ categories, types, authors, artists, narrators, publishers, years = (
 	[], [], [], [], [], [], []
 )
 
-for book in new_books:
+for book in books:
 	category, book_type, author, artist, year, narrator, publisher = (
 		book.get("category"), book.get("type"), book.get("author"),
 		book.get("artist"), book.get("year"), book.get("narrator"),
@@ -227,7 +227,7 @@ files = [
 	(narrators, os.path.join(PACKAGE_DATA, "narrators.json.xz")),
 	(publishers, os.path.join(PACKAGE_DATA, "publishers.json.xz")),
 	(years, os.path.join(PACKAGE_DATA, "years.json.xz")),
-	(new_books, os.path.join(PACKAGE_DATA, "books.json.xz"))
+	(books, os.path.join(PACKAGE_DATA, "books.json.xz"))
 ]
 
 for data, filename in files:
