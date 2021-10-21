@@ -1,4 +1,5 @@
 import os
+import time
 
 import orjson
 import pyrogram
@@ -202,6 +203,8 @@ while True:
 			book["total_size"] += message.document.file_size
 			
 			book["documents"].append(document)
+	
+	time.sleep(5)
 
 books.append(book)
 
