@@ -1,6 +1,4 @@
-import time
 import os
-import unicodedata
 
 import orjson
 import pyrogram
@@ -49,6 +47,8 @@ start = 1
 end = start + 100
 
 while True:
+	print(start)
+	
 	messages = client.get_messages(
 		chat_id=BOOKS_CHAT,
 		message_ids=range(start, end)
