@@ -162,9 +162,9 @@ while True:
 		
 		if message.document:
 			if message.document.thumbs:
-				thumb = message.document.thumbs.pop(0)
+				thumbnail = message.document.thumbs.pop(0)
 			else:
-				thumb = None
+				thumbnail = None
 			
 			document = {
 				"id": document_id,
