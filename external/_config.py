@@ -55,7 +55,6 @@ IGNORED_MESSAGES = (
 	177270,
 	177271,
 	177273,
-	181061
+	181061,
+	181063
 )
-
-INVALID_MESSAGES_FILE = os.path.join(PACKAGE_DATA, "invalid_messages.json.xz")

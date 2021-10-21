@@ -43,139 +43,165 @@ book = {}
 book_id = 0
 cover_id = 0
 document_id = 0
+thumbnail_id = 0
 
-if os.path.exists(INVALID_MESSAGES_FILE):
-	with lzma.open(filename=INVALID_MESSAGES_FILE, mode="r") as file:
-		invalid_messages = orjson.loads(file.read())
-else:
-	invalid_messages = []
+start = 1
+end = start + 100
 
-while message_id < MAX_MESSAGES:
+while True:
+	messages = client.get_messages(
+		chat_id=BOOKS_CHAT,
+		message_ids=range(start, end)
+	)
 	
-	message_id += 1
+	if not messages:
+		break
 	
-	# Essas mensagens não são publicações de livros
-	if message_id in IGNORED_MESSAGES:
-		continue
+	if messages[0].message_id > MAX_MESSAGES:
+		break
 	
-	if message_id in invalid_messages:
-		continue
+	start = end
+	end = end + 100
 	
-	message = client.get_messages(BOOKS_CHAT, message_id)
-	
-	if message.empty or message.service:
-		invalid_messages.append(message_id)
-		continue
-	
-	if message.photo and message.caption:
-		if book:
-			books.append(book)
+	for message in messages:
+		if message.message_id in IGNORED_MESSAGES:
+			continue
 		
-		scraper.set_text(message.caption.markdown)
-		extrctd = scraper.extract()
-		
-		fallback = dict(fallback_photo)
-		fallback["id"] = cover_id
-		
-		book = {
-			"id": book_id,
-			"message_id": message.message_id,
-			"date": message.date,
-			"title": extrctd["title"],
-			"type": extrctd["type"],
-			"category": extrctd["category"],
-			"genre": extrctd["genre"],
-			"duration": None if extrctd["type"] != "Audiobook" else duration_to_seconds(message.caption.markdown),
-			"total_size": 0,
-			"author": extrctd["author"],
-			"artist": extrctd["artist"],
-			"narrator": extrctd["narrator"],
-			"publisher": extrctd["publisher"],
-			"year": extrctd["year"],
-			"total_volumes": extrctd["volumes"],
-			"total_chapters": extrctd["chapters"],
-			"message_views": message.views,
-			"cover": fallback if message.photo.file_unique_id == "AQAD4vP0KF0AA78lAwAB" else {
-				"id": cover_id,
+		if message.empty or message.service:
+			continue
+			
+		if message.photo and message.caption:
+			if book:
+				books.append(book)
+			
+			scraper.set_text(message.caption.markdown)
+			extrctd = scraper.extract()
+			
+			fallback = dict(fallback_photo)
+			fallback["id"] = cover_id
+			
+			book = {
+				"id": book_id,
 				"message_id": message.message_id,
-				"date": message.photo.date,
-				"file_name": "unk.jpg" if extrctd["title"] is None else extrctd["title"].replace("/", "+").replace("\\", "+") + "." + "jpg",
-				"file_extension": "jpg",
-				"file_size": message.photo.file_size,
-				"file_id": message.photo.file_id,
-				"file_unique_id": message.photo.file_unique_id,
-				"mime_type": "image/jpeg",
-				"resolution": {
-					"height": message.photo.height,
-					"width": message.photo.width
-				}
-			},
-			"flags": extrctd["flags"],
-			"documents": [],
-		}
+				"date": message.date,
+				"title": extrctd["title"],
+				"type": extrctd["type"],
+				"category": extrctd["category"],
+				"genre": extrctd["genre"],
+				"duration": None if extrctd["type"] != "Audiobook" else duration_to_seconds(message.caption.markdown),
+				"total_size": 0,
+				"author": extrctd["author"],
+				"artist": extrctd["artist"],
+				"narrator": extrctd["narrator"],
+				"publisher": extrctd["publisher"],
+				"year": extrctd["year"],
+				"total_volumes": extrctd["volumes"],
+				"total_chapters": extrctd["chapters"],
+				"message_views": message.views,
+				"cover": fallback if message.photo.file_unique_id == "AQAD4vP0KF0AA78lAwAB" else {
+					"id": cover_id,
+					"message_id": message.message_id,
+					"date": message.photo.date,
+					"file_name": "unk.jpg" if extrctd["title"] is None else extrctd["title"].replace("/", "+").replace("\\", "+") + "." + "jpg",
+					"file_extension": "jpg",
+					"file_size": message.photo.file_size,
+					"file_id": message.photo.file_id,
+					"file_unique_id": message.photo.file_unique_id,
+					"mime_type": "image/jpeg",
+					"resolution": {
+						"height": message.photo.height,
+						"width": message.photo.width
+					}
+				},
+				"flags": extrctd["flags"],
+				"documents": [],
+			}
+			
+			book_id += 1
+			cover_id += 1
+			
+			continue
+			
+		if message.text:
+			if book:
+				books.append(book)
+			
+			scraper.set_text(message.text.markdown)
+			extrctd = scraper.extract()
+			
+			fallback = dict(fallback_photo)
+			fallback["id"] = cover_id
+			
+			book = {
+				"id": book_id,
+				"message_id": message.message_id,
+				"date": message.date,
+				"title": extrctd["title"],
+				"type": extrctd["type"],
+				"category": extrctd["category"],
+				"genre": extrctd["genre"],
+				"duration": None if extrctd["type"] != "Audiobook" else duration_to_seconds(message.text.markdown),
+				"total_size": 0,
+				"author": extrctd["author"],
+				"artist": extrctd["artist"],
+				"narrator": extrctd["narrator"],
+				"publisher": extrctd["publisher"],
+				"year": extrctd["year"],
+				"total_volumes": extrctd["volumes"],
+				"total_chapters": extrctd["chapters"],
+				"message_views": message.views,
+				"cover": fallback,
+				"flags": extrctd["flags"],
+				"documents": []
+			}
+			
+			book_id += 1
+			cover_id += 1
+			
+			continue
 		
-		book_id += 1
-		cover_id += 1
-		
-		continue
-		
-	if message.text:
-		if book:
-			books.append(book)
-		
-		scraper.set_text(message.text.markdown)
-		extrctd = scraper.extract()
-		
-		fallback = dict(fallback_photo)
-		fallback["id"] = cover_id
-		
-		book = {
-			"id": book_id,
-			"message_id": message.message_id,
-			"date": message.date,
-			"title": extrctd["title"],
-			"type": extrctd["type"],
-			"category": extrctd["category"],
-			"genre": extrctd["genre"],
-			"duration": None if extrctd["type"] != "Audiobook" else duration_to_seconds(message.text.markdown),
-			"total_size": 0,
-			"author": extrctd["author"],
-			"artist": extrctd["artist"],
-			"narrator": extrctd["narrator"],
-			"publisher": extrctd["publisher"],
-			"year": extrctd["year"],
-			"total_volumes": extrctd["volumes"],
-			"total_chapters": extrctd["chapters"],
-			"message_views": message.views,
-			"cover": fallback,
-			"flags": extrctd["flags"],
-			"documents": []
-		}
-		
-		book_id += 1
-		cover_id += 1
-		
-		continue
-	
-	if message.document:
-		document = {
-			"id": document_id,
-			"message_id": message.message_id,
-			"date": message.document.date,
-			"file_name": message.document.file_name,
-			"file_extension": message.document.file_name.split(".")[-1],
-			"file_size": message.document.file_size,
-			"file_id": message.document.file_id,
-			"file_unique_id": message.document.file_unique_id,
-			"mime_type": message.document.mime_type,
-			"message_views": message.views
-		}
-		
-		document_id += 1
-		
-		book["total_size"] += message.document.file_size
-		
-		book["documents"].append(document)
+		if message.document:
+			if message.document.thumbs:
+				thumb = message.document.thumbs.pop(0)
+			else:
+				thumb = None
+			
+			document = {
+				"id": document_id,
+				"message_id": message.message_id,
+				"date": message.document.date,
+				"file_name": message.document.file_name,
+				"file_extension": message.document.file_name.split(".")[-1],
+				"file_size": message.document.file_size,
+				"file_id": message.document.file_id,
+				"file_unique_id": message.document.file_unique_id,
+				"mime_type": message.document.mime_type,
+				"thumbnail": None if not thumbnail else {
+					"id": thumbnail_id,
+					"message_id": message.message_id,
+					"date": message.document.date,
+					"file_name": "unk.jpg" if extrctd["title"] is None else extrctd["title"].replace("/", "+").replace("\\", "+") + "." + "jpg",
+					"file_extension": "jpg",
+					"file_size": thumbnail.file_size,
+					"file_id": thumbnail.file_id,
+					"file_unique_id": thumbnail.file_unique_id,
+					"mime_type": "image/jpeg",
+					"resolution": {
+						"height": thumbnail.height,
+						"width": thumbnail.width
+					}
+				},
+				"message_views": message.views
+			}
+			
+			document_id += 1
+			
+			if thumbnail:
+				thumbnail_id += 1
+			
+			book["total_size"] += message.document.file_size
+			
+			book["documents"].append(document)
 
 books.append(book)
 
@@ -233,8 +259,5 @@ files = [
 for data, filename in files:
 	with lzma.open(filename=filename, **LZMA_COMPRESSION) as file:
 		file.write(orjson.dumps(data))
-
-with lzma.open(filename=INVALID_MESSAGES_FILE, **LZMA_COMPRESSION) as file:
-	file.write(orjson.dumps([message_id for message_id in invalid_messages if message_id <= book["message_id"]]))
 
 client.log_out()
