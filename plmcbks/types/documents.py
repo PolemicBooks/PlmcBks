@@ -15,6 +15,7 @@ class Document(Dict):
 		file_id,
 		file_unique_id,
 		mime_type,
+		thumbnail,
 		message_views
 	):
 		self.id = id
@@ -26,6 +27,7 @@ class Document(Dict):
 		self.file_id = file_id
 		self.file_unique_id = file_unique_id
 		self.mime_type = mime_type
+		self.thumbnail = thumbnail
 		self.message_views = message_views
 
 

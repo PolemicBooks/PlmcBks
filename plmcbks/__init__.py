@@ -185,6 +185,21 @@ for book in json.loads(content):
 			file_id=document["file_id"],
 			file_unique_id=document["file_unique_id"],
 			mime_type=document["mime_type"],
+			thumbnail=None if document["thumbnail"] is None else Cover(
+				id=document["thumbnail"]["id"],
+				message_id=document["thumbnail"]["message_id"],
+				date=document["thumbnail"]["date"],
+				file_name=document["thumbnail"]["file_name"],
+				file_extension=document["thumbnail"]["file_extension"],
+				file_size=document["thumbnail"]["file_size"],
+				file_id=document["thumbnail"]["file_id"],
+				file_unique_id=document["thumbnail"]["file_unique_id"],
+				mime_type=document["thumbnail"]["mime_type"],
+				resolution=Resolution(
+					height=document["thumbnail"]["resolution"]["height"],
+					width=document["thumbnail"]["resolution"]["width"]
+				)
+			),
 			message_views=document["message_views"]
 		)
 		
